@@ -1,0 +1,25 @@
+@startuml
+hide methods
+hide stereotypes
+
+entity Project {
+  + id [PK]
+  --
+  name VARCHAR[255]
+}
+
+entity Task {
+  + ID [PK]
+  --
+  subject
+  description
+  estimated_hours
+}
+
+Project --right--{ Iteration
+Project ----{ Story
+Iteration ----{ IterationPlan
+IterationPlan }---- Story
+Story |o--right--{ Task
+Task ---o| Overheads
+@enduml
