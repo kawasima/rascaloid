@@ -11,6 +11,7 @@ import enkan.component.jackson.JacksonBeansConverter;
 import enkan.component.jetty.JettyComponent;
 import enkan.config.EnkanSystemFactory;
 import enkan.system.EnkanSystem;
+import net.unit8.bouncr.sign.JsonWebToken;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
 
 import static enkan.component.ComponentRelationship.*;
@@ -23,6 +24,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                 "doma", builder(new DomaProvider())
                         .set(DomaProvider::setDialect, new H2Dialect())
                         .build(),
+                "jwt", new JsonWebToken(),
                 "jackson", new JacksonBeansConverter(),
                 "flyway", new FlywayMigration(),
                 "template", new FreemarkerTemplateEngine(),
@@ -37,7 +39,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
         ).relationships(
                 component("http").using("app"),
                 component("app").using(
-                        "datasource", "template", "doma", "jackson"),
+                        "datasource", "template", "doma", "jackson", "jwt"),
                 component("doma").using("datasource", "flyway"),
                 component("flyway").using("datasource")
         );

@@ -35,8 +35,9 @@ public class V3__CreateTask implements JdbcMigration {
     private void createDevelopmentTask(Statement stmt) throws SQLException {
         DSLContext create = DSL.using(stmt.getConnection());
         String ddl = create.createTable(table("development_tasks"))
-                .column(field("task_id", SQLDataType.BIGINT.nullable(true)))
-                .column(field("story_id", SQLDataType.BIGINT.nullable(true)))
+                .column(field("task_id", SQLDataType.BIGINT.nullable(false)))
+                .column(field("story_id", SQLDataType.BIGINT.nullable(false)))
+                .column(field("status_id", SQLDataType.BIGINT.nullable(false)))
                 .constraints(
                         constraint().primaryKey(field("task_id")),
                         constraint().foreignKey(field("task_id")).references(table("tasks"), field("task_id")),

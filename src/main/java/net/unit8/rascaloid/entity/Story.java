@@ -13,9 +13,9 @@ public class Story implements Serializable {
     @Id
     @Column(name = "story_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Identity<Story> id;
 
-    private Long projectId;
+    private Identity<Project> projectId;
 
     private String subject;
 

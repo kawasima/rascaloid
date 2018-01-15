@@ -16,8 +16,9 @@ public class V8__CreateIterationPlan implements JdbcMigration {
         try (Statement stmt = connection.createStatement()) {
             DSLContext create = DSL.using(connection);
             String ddl = create.createTable(table("iteration_plans"))
-                    .column(field("iteration_id", SQLDataType.BIGINT.identity(true)))
-                    .column(field("story_id", SQLDataType.BIGINT.identity(true)))
+                    .column(field("iteration_id", SQLDataType.BIGINT.nullable(false)))
+                    .column(field("story_id", SQLDataType.BIGINT.nullable(false)))
+                    .column(field("position", SQLDataType.BIGINT.nullable(false)))
                     .constraints(
                             constraint().primaryKey(field("iteration_id"), field("story_id")),
                             constraint().foreignKey(field("iteration_id")).references(table("iterations"), field("iteration_id")),

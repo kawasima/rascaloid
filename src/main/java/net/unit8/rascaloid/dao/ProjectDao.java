@@ -1,11 +1,9 @@
 package net.unit8.rascaloid.dao;
 
 import enkan.security.UserPrincipal;
+import net.unit8.rascaloid.entity.Identity;
 import net.unit8.rascaloid.entity.Project;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import org.seasar.doma.*;
 
 import java.util.List;
 
@@ -15,7 +13,7 @@ public interface ProjectDao {
     List<Project> findAll(UserPrincipal principal);
 
     @Select
-    List<Project> findById(Long id, UserPrincipal principal);
+    List<Project> findById(Identity<Project> id, UserPrincipal principal);
 
     @Insert
     int insert(Project project);
@@ -23,7 +21,6 @@ public interface ProjectDao {
     @Update
     int update(Project project);
 
-    @Insert
+    @Delete
     int delete(Project project);
-
 }

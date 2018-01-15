@@ -1,0 +1,8 @@
+SELECT DT.*, T.*
+FROM development_tasks DT
+JOIN tasks T ON DT.task_id = T.task_id
+JOIN task_statuses TS ON DT.status_id = TS.status_id
+JOIN stories S ON S.story_id = DT.story_id
+JOIN iteration_plan IP ON IP.story_id = S.story_id
+JOIN iteration I ON I.iteration_id = IP.iteration_id
+WHERE I.iteration_id = /*iterationId*/1

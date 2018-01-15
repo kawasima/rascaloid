@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Rascaloid
+  description: Rascaloid
+  version: 0.1.0
+servers:
+  - url: 'http://localhost:3000'
+    description: Development
+paths:
+  /projects:
+    get:
+      summary: Finds projects
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid status value
+        '403':
+          description: Permission denied
+    post:
+      tags:
+        - project
+      summary: Add a new pet to the store
+      description: ''
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+  '/project/{projectId}':
+    put:
+      tags:
+        - project
+      summary: Update an existing project
+      description: ''
+      operationId: updateProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    Story:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string

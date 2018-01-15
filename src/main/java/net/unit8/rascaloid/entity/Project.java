@@ -12,7 +12,7 @@ public class Project implements Serializable {
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Identity<Project> id;
     private String name;
     private String description;
 }

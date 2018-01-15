@@ -106,6 +106,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.unit8.enkan</groupId>
+            <artifactId>enkan-bouncr</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>

@@ -7,6 +7,7 @@ import net.unit8.rascaloid.boundary.ProjectCreateRequest;
 import net.unit8.rascaloid.dao.ProjectDao;
 import net.unit8.rascaloid.entity.Project;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ProjectController {
     @Inject
     private BeansConverter beansConverter;
 
+    @RolesAllowed("SHOW_PROJECT")
     public List<Project> list(UserPrincipal principal) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
         return projectDao.findAll(principal);

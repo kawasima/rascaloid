@@ -13,7 +13,7 @@ public class Task implements Serializable {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Identity<Task> id;
 
     private Long projectId;
     private String subject;
