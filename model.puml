@@ -3,13 +3,21 @@ hide methods
 hide stereotypes
 
 entity Project {
-  + id [PK]
+  + project_id [PK]
   --
   name VARCHAR[255]
 }
 
+entity Story {
+  + story_id [PK]
+  --
+  project_id [FK]
+  subject VARCHAR[255]
+  description CLOB
+  point NUMBER[2,1]
+}
 entity Task {
-  + ID [PK]
+  + task_id [PK]
   --
   subject
   description
@@ -20,7 +28,22 @@ entity IterationPlan {
   + iteration_id [PK]
   + story_id [PK]
   --
-  position
+  position INTEGER
+}
+
+entity Iteration {
+  + iteration_id [PK]
+  --
+  subject
+  description
+  start_on
+  end_on
+}
+
+entity DevelopmentTask {
+  + task_id [PK]
+  --
+  + story_id
 }
 
 Project --right--{ Iteration

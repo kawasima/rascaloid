@@ -14,6 +14,6 @@ import java.io.Serializable;
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
-    private Long id;
+    private Identity<User> id;
     private String account;
 }

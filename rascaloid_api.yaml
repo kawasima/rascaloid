@@ -9,7 +9,11 @@ servers:
 paths:
   /projects:
     get:
+      tags:
+        - project
       summary: Finds projects
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
       responses:
         '200':
           description: successful operation
@@ -26,9 +30,9 @@ paths:
     post:
       tags:
         - project
-      summary: Add a new pet to the store
+      summary: Add a new project
       description: ''
-      operationId: addPet
+      operationId: addProject
       requestBody:
         required: true
         content:
@@ -40,8 +44,8 @@ paths:
           description: Invalid input
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - 'write:projects'
+            - 'read:projects'
   '/project/{projectId}':
     put:
       tags:
@@ -67,9 +71,131 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: Pet not found
+          description: Project not found
         '405':
           description: Validation exception
+    delete:
+      tags:
+        - project
+      summary: Delete an existing project
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Project not found
+  '/project/{projectId}/stories':
+    get:
+      tags:
+        - stories
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: stories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Story'
+    post:
+      tags:
+        - stories
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Story'
+      responses:
+        '204':
+          description: Successful
+  '/story/{storyId}':
+    get:
+      tags:
+        - story
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Story'
+    put:
+      tags:
+        - story
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Story'
+      responses:
+        '204':
+          description: successful
+    delete:
+      tags:
+        - story
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Story'
+      responses:
+        '204':
+          description: successful
+  '/project/{projectId}/iterations':
+    get:
+      tags:
+        - iterations
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: iterations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iteration'
+    post:
+      tags:
+        - iterations
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Iteration'
+      responses:
+        '204':
+          description: Successful
 components:
   schemas:
     Project:
@@ -92,3 +218,73 @@ components:
           type: string
         description:
           type: string
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string
+        estimated_hours:
+          type: number
+          format: double
+    Iteration:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string
+        startOn:
+          type: string
+          format: date
+        endOn:
+          type: string
+          format: date
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        account:
+          type: string
+  parameters:
+    projectId:
+      in: path
+      name: projectId
+      required: true
+      schema:
+        type: integer
+        format: int64
+    storyId:
+      in: path
+      name: storyId
+      required: true
+      schema:
+        type: integer
+        format: int64
+    iterationId:
+      in: path
+      name: iterationId
+      required: true
+      schema:
+        type: integer
+        format: int64
+    bouncrCredential:
+      in: header
+      name: X-Bouncr-Credential
+      required: true
+      schema:
+        type: string
+      description: bouncr credential
+      examples:
+        user1:
+          value: >-
+            eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyMSIsIm5hbWUiOiJUZXN0IHVzZXIxIiwicGVybWlzc2lvbnMiOlsiUkVBRF9QUk9KRUNUIiwiV1JJVEVfUFJPSkVDVCJdfQ.YmnrzSdzEgVrUM8EWp4yQSE-AfOnG3kzscksuSCJFSQ

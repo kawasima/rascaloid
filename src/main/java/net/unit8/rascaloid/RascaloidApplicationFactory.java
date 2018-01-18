@@ -10,11 +10,12 @@ import enkan.security.bouncr.BouncrBackend;
 import enkan.system.inject.ComponentInjector;
 import kotowari.middleware.*;
 import kotowari.routing.Routes;
+import net.unit8.rascaloid.controller.DevelopmentTaskController;
 import net.unit8.rascaloid.controller.IterationController;
 import net.unit8.rascaloid.controller.ProjectController;
 import net.unit8.rascaloid.controller.StoryController;
-import net.unit8.rascaloid.controller.DevelopmentTaskController;
 import net.unit8.rascaloid.middleware.AuthorizeControllerMethodMiddleware;
+import net.unit8.rascaloid.middleware.UserAutoRegisterMiddleware;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -78,6 +79,8 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
         app.use(new RoutingMiddleware(routes));
         app.use(new AuthorizeControllerMethodMiddleware());
         app.use(new DomaTransactionMiddleware<>());
+        // For development; If the authenticated user is unregistered, register the user automatically.
+        app.use(new UserAutoRegisterMiddleware());
         app.use(new FormMiddleware());
         app.use(new SerDesMiddleware());
         app.use(new ValidateBodyMiddleware<>());

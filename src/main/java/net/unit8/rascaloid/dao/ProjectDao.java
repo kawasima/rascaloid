@@ -3,6 +3,7 @@ package net.unit8.rascaloid.dao;
 import enkan.security.UserPrincipal;
 import net.unit8.rascaloid.entity.Identity;
 import net.unit8.rascaloid.entity.Project;
+import net.unit8.rascaloid.entity.User;
 import org.seasar.doma.*;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface ProjectDao {
 
     @Delete
     int delete(Project project);
+
+    @Insert
+    int addUser(Identity<Project> id, Identity<User> userId);
 }
