@@ -25,6 +25,6 @@ public interface ProjectDao {
     @Delete
     int delete(Project project);
 
-    @Insert
+    @Insert(sqlFile = true)
     int addUser(Identity<Project> id, Identity<User> userId);
 }

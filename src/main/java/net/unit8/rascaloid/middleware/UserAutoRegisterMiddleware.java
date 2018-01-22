@@ -7,6 +7,7 @@ import enkan.data.HttpRequest;
 import enkan.data.HttpResponse;
 import enkan.data.PrincipalAvailable;
 import enkan.middleware.AbstractWebMiddleware;
+import enkan.security.bouncr.UserPermissionPrincipal;
 import net.unit8.rascaloid.dao.UserDao;
 import net.unit8.rascaloid.entity.User;
 
@@ -14,15 +15,14 @@ import javax.inject.Inject;
 import java.security.Principal;
 
 import static enkan.util.BeanBuilder.builder;
-
-@Middleware(name = "userAutoRegister", dependencies = "authenticate")
+@Middleware(name = "userAutoRegister", dependencies = "authentication")
 public class UserAutoRegisterMiddleware extends AbstractWebMiddleware {
     @Inject
     private DomaProvider daoProvider;
 
     @Override
     public HttpResponse handle(HttpRequest request, MiddlewareChain chain) {
-        Principal principal = PrincipalAvailable.class.cast(request).getPrincipal();
+        UserPermissionPrincipal principal = (UserPermissionPrincipal) PrincipalAvailable.class.cast(request).getPrincipal();
         if (principal != null) {
             UserDao userDao = daoProvider.getDao(UserDao.class);
             User user = userDao.findByAccount(principal.getName());
@@ -33,6 +33,6 @@ public class UserAutoRegisterMiddleware extends AbstractWebMiddleware {
                 userDao.insert(user);
             }
         }
-        return null;
+        return (HttpResponse) chain.next(request);
     }
 }

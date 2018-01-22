@@ -22,7 +22,7 @@ public class ProjectController {
     @Inject
     private BeansConverter beansConverter;
 
-    @RolesAllowed("SHOW_PROJECT")
+    @RolesAllowed("READ_PROJECT")
     public List<Project> list(UserPrincipal principal) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
         return projectDao.findAll(principal);

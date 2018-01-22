@@ -39,13 +39,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Project'
+            example:
+              name: hhh
       responses:
         '405':
           description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:projects'
-            - 'read:projects'
   '/project/{projectId}':
     put:
       tags:
