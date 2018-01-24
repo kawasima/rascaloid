@@ -12,6 +12,9 @@ import java.util.Set;
 @Dao
 public interface StoryDao {
     @Select
+    Story findById(Identity<Story> id);
+
+    @Select
     List<Story> findByProjectId(Identity<Project> projectId, UserPrincipal principal);
 
     @Select

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "iterations")
+@Table(name = "stories")
 @Data
 public class Story implements Serializable {
     @Id
@@ -15,6 +15,7 @@ public class Story implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Identity<Story> id;
 
+    @Column(name = "project_id")
     private Identity<Project> projectId;
 
     private String subject;

@@ -33,14 +33,14 @@ paths:
       summary: Add a new project
       description: ''
       operationId: addProject
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Project'
-            example:
-              name: hhh
       responses:
         '405':
           description: Invalid input
@@ -163,6 +163,37 @@ paths:
       responses:
         '204':
           description: successful
+  '/story/{storyId}/tasks':
+    get:
+      tags:
+        - task
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      tags:
+        - task
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '204':
+          description: successful
   '/project/{projectId}/iterations':
     get:
       tags:
@@ -194,6 +225,44 @@ paths:
       responses:
         '204':
           description: Successful
+  '/task/{taskId}':
+    get:
+      tags:
+        - task
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/taskId'
+      responses:
+        '200':
+          description: task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    put:
+      tags:
+        - task
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/taskId'
+      responses:
+        '204':
+          description: Successful
+  /taskStatus:
+    post:
+      tags:
+        - taskStatus
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskStatus'
+      responses:
+        '204':
+          description: Successful
 components:
   schemas:
     Project:
@@ -206,6 +275,9 @@ components:
           type: string
         description:
           type: string
+      example:
+        name: project1
+        description: Sample project
     Story:
       type: object
       properties:
@@ -216,6 +288,13 @@ components:
           type: string
         description:
           type: string
+        point:
+          type: number
+          format: double
+      example:
+        subject: Story1
+        description: Implements story1
+        point: 5
     Task:
       type: object
       properties:
@@ -226,9 +305,17 @@ components:
           type: string
         description:
           type: string
-        estimated_hours:
+        estimatedHours:
           type: number
           format: double
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+      example:
+        subject: Create controller
+        description: Create controller for development
+        estimatedHours: 8
+        status:
+          id: 1
     Iteration:
       type: object
       properties:
@@ -245,6 +332,20 @@ components:
         endOn:
           type: string
           format: date
+    TaskStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
+      example:
+        name: ToDo
+        position: 1
     User:
       type: object
       properties:
@@ -275,6 +376,13 @@ components:
       schema:
         type: integer
         format: int64
+    taskId:
+      in: path
+      name: taskId
+      required: true
+      schema:
+        type: integer
+        format: int64
     bouncrCredential:
       in: header
       name: X-Bouncr-Credential
@@ -282,7 +390,5 @@ components:
       schema:
         type: string
       description: bouncr credential
-      examples:
-        user1:
-          value: >-
-            eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyMSIsIm5hbWUiOiJUZXN0IHVzZXIxIiwicGVybWlzc2lvbnMiOlsiUkVBRF9QUk9KRUNUIiwiV1JJVEVfUFJPSkVDVCJdfQ.YmnrzSdzEgVrUM8EWp4yQSE-AfOnG3kzscksuSCJFSQ
+      example: >-
+        eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyMSIsIm5hbWUiOiJUZXN0IHVzZXIxIiwicGVybWlzc2lvbnMiOlsiUkVBRF9QUk9KRUNUIiwiV1JJVEVfUFJPSkVDVCJdfQ.YmnrzSdzEgVrUM8EWp4yQSE-AfOnG3kzscksuSCJFSQ

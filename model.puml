@@ -16,12 +16,20 @@ entity Story {
   description CLOB
   point NUMBER[2,1]
 }
+
 entity Task {
   + task_id [PK]
   --
   subject
   description
   estimated_hours
+  status_id
+}
+
+entity TaskStatus {
+  + status_id [PK]
+  --
+  name
 }
 
 entity IterationPlan {
@@ -53,5 +61,6 @@ IterationPlan }---- Story
 Project |o--right--{ Task
 Task ---o| DevelopmentTask
 Task ---o| Overheads
+Task }--- TaskStatus
 DevelopmentTask }---- Story
 @enduml

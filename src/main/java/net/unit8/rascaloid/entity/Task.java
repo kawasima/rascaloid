@@ -15,8 +15,12 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Identity<Task> id;
 
-    private Long projectId;
+    @Column(name = "project_id")
+    private Identity<Project> projectId;
     private String subject;
     private String description;
-    private BigDecimal estimateHours;
+    @Column(name = "estimated_hours")
+    private BigDecimal estimatedHours;
+
+    private TaskStatus status;
 }

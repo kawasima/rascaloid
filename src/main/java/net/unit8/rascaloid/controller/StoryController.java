@@ -28,10 +28,16 @@ public class StoryController {
         return storyDao.findByProjectId(new Identity<>(params.getLong("projectId")), principal);
     }
 
+    public Story show(Parameters params) {
+        StoryDao storyDao = daoProvider.getDao(StoryDao.class);
+        return storyDao.findById(new Identity<>(params.getLong("storyId")));
+    }
+
     @Transactional
-    public void create(StoryCreateRequest createRequest) {
+    public void create(Parameters params, StoryCreateRequest createRequest) {
         StoryDao storyDao = daoProvider.getDao(StoryDao.class);
         Story story = beansConverter.createFrom(createRequest, Story.class);
+        story.setProjectId(new Identity<>(params.getLong("projectId")));
         storyDao.insert(story);
     }
 

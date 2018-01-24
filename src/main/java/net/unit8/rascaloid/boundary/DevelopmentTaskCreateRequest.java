@@ -19,8 +19,17 @@ public class DevelopmentTaskCreateRequest extends BoundaryBase {
 
     @DecimalMin("0.0")
     @DecimalMin("5.0")
-    private BigDecimal estimatedHour;
+    private BigDecimal estimatedHours;
+
+    private TaskStatus status;
 
     @NotNull
     private Long storyId;
+
+    @Data
+    public static class TaskStatus extends BoundaryBase {
+        private Long id;
+        private String name;
+        private Integer position;
+    }
 }

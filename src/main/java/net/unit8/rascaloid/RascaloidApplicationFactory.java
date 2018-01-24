@@ -10,10 +10,8 @@ import enkan.security.bouncr.BouncrBackend;
 import enkan.system.inject.ComponentInjector;
 import kotowari.middleware.*;
 import kotowari.routing.Routes;
-import net.unit8.rascaloid.controller.DevelopmentTaskController;
-import net.unit8.rascaloid.controller.IterationController;
-import net.unit8.rascaloid.controller.ProjectController;
-import net.unit8.rascaloid.controller.StoryController;
+import net.unit8.rascaloid.controller.*;
+import net.unit8.rascaloid.entity.DevelopmentTask;
 import net.unit8.rascaloid.middleware.AuthorizeControllerMethodMiddleware;
 import net.unit8.rascaloid.middleware.UserAutoRegisterMiddleware;
 
@@ -42,7 +40,9 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
             r.put("/story/:storyId").to(StoryController.class, "update");
             r.delete("/story/:storyId").to(StoryController.class, "delete");
 
+            r.get("/story/:storyId/tasks").to(DevelopmentTaskController.class, "list");
             r.post("/story/:storyId/tasks").to(DevelopmentTaskController.class, "create");
+            r.put("/task/:taskId").to(DevelopmentTaskController.class, "update");
 
             r.get("/project/:projectId/iterations").to(IterationController.class, "list");
             r.post("/project/:projectId/iterations").to(IterationController.class, "create");
@@ -51,6 +51,7 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
             r.delete("/iteration/:iterationId/removeStory/:storyId").to(IterationController.class, "removeStory");
             r.get("/iteration/:iterationId/kanban").to(IterationController.class, "kanban");
 
+            r.post("/taskStatus").to(TaskStatusController.class, "create");
         }).compile();
 
         app.use(new DefaultCharsetMiddleware());

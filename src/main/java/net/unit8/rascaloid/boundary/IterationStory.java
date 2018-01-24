@@ -15,5 +15,7 @@ public class IterationStory {
     @NotBlank
     private String description;
 
+    private BigDecimal point;
+
     private List<DevelopmentTask> developmentTasks;
 }
