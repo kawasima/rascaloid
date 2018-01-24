@@ -2,6 +2,7 @@ package net.unit8.rascaloid.boundary;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.unit8.rascaloid.entity.TaskStatus;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
@@ -21,15 +22,8 @@ public class DevelopmentTaskCreateRequest extends BoundaryBase {
     @DecimalMin("5.0")
     private BigDecimal estimatedHours;
 
-    private TaskStatus status;
-
     @NotNull
     private Long storyId;
 
-    @Data
-    public static class TaskStatus extends BoundaryBase {
-        private Long id;
-        private String name;
-        private Integer position;
-    }
+    private String status;
 }

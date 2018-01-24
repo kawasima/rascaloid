@@ -24,7 +24,7 @@ public class V3__CreateTask implements JdbcMigration {
     private void createTaskStatus(Statement stmt) throws SQLException {
         DSLContext create = DSL.using(stmt.getConnection());
         String ddl = create.createTable(table("task_status"))
-                .column(field("status_id", SQLDataType.BIGINT.nullable(false)))
+                .column(field("status_id", SQLDataType.BIGINT.identity(true)))
                 .column(field("name", SQLDataType.VARCHAR(255).nullable(false)))
                 .column(field("position", SQLDataType.INTEGER.nullable(false)))
                 .constraints(

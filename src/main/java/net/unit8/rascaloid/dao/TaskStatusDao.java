@@ -1,16 +1,17 @@
 package net.unit8.rascaloid.dao;
 
 import net.unit8.rascaloid.entity.TaskStatus;
-import org.seasar.doma.Delete;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import org.seasar.doma.*;
 
 import java.util.List;
 
+@Dao
 public interface TaskStatusDao {
     @Select
     List<TaskStatus> findAll();
+
+    @Select
+    TaskStatus findByName(String name);
 
     @Insert
     int insert(TaskStatus taskStatus);

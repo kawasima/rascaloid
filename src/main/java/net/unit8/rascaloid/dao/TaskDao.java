@@ -21,6 +21,7 @@ public interface TaskDao {
         return InsertBuilder.newInstance(config)
                 .sql("INSERT INTO development_tasks(task_id, story_id) values(")
                 .param(Identity.class, devTask.getId())
+                .sql(",")
                 .param(Identity.class, devTask.getStoryId())
                 .sql(")")
                 .execute();

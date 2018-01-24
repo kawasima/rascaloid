@@ -1,5 +1,6 @@
 package net.unit8.rascaloid.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.seasar.doma.*;
 
@@ -22,5 +23,10 @@ public class Task implements Serializable {
     @Column(name = "estimated_hours")
     private BigDecimal estimatedHours;
 
-    private TaskStatus status;
+    @Column(name = "status_id")
+    @JsonIgnore
+    private Identity<TaskStatus> statusId;
+
+    @Column(insertable = false, updatable = false)
+    private String status;
 }

@@ -6,10 +6,8 @@ import enkan.component.doma2.DomaProvider;
 import net.unit8.rascaloid.boundary.DevelopmentTaskCreateRequest;
 import net.unit8.rascaloid.dao.StoryDao;
 import net.unit8.rascaloid.dao.TaskDao;
-import net.unit8.rascaloid.entity.DevelopmentTask;
-import net.unit8.rascaloid.entity.Identity;
-import net.unit8.rascaloid.entity.Story;
-import net.unit8.rascaloid.entity.Task;
+import net.unit8.rascaloid.dao.TaskStatusDao;
+import net.unit8.rascaloid.entity.*;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -35,7 +33,12 @@ public class DevelopmentTaskController {
 
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
         DevelopmentTask task = beansConverter.createFrom(createRequest, DevelopmentTask.class);
+        task.setStoryId(story.getId());
         task.setProjectId(story.getProjectId());
+
+        TaskStatusDao taskStatusDao = daoProvider.getDao(TaskStatusDao.class);
+        TaskStatus taskStatus = taskStatusDao.findByName(createRequest.getStatus());
+        task.setStatusId(taskStatus.getId());
         taskDao.insert(task);
     }
 
