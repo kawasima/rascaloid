@@ -1,11 +1,21 @@
 openapi: 3.0.0
 info:
-  title: Rascaloid
-  description: Rascaloid
+  title: Rascaloid API
+  description: The specification of Rascaloid API.
+  license: EPL-2.0
   version: 0.1.0
 servers:
   - url: 'http://localhost:3000'
     description: Development
+tags:
+  - name: project
+    description: Project operations
+  - name: stories
+    description: Stories operations
+  - name: task
+    description: Tasks operations
+  - name: iterations
+    description: Iterations operations
 paths:
   /projects:
     get:

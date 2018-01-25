@@ -22,12 +22,13 @@ public class ProjectController {
     @Inject
     private BeansConverter beansConverter;
 
-    @RolesAllowed("READ_PROJECT")
+    @RolesAllowed("project:read")
     public List<Project> list(UserPrincipal principal) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
         return projectDao.findAll(principal);
     }
 
+    @RolesAllowed("project:create")
     @Transactional
     public void create(ProjectCreateRequest createRequest, UserPermissionPrincipal principal) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
@@ -39,12 +40,14 @@ public class ProjectController {
         projectDao.addUser(project.getId(), user.getId());
     }
 
+    @RolesAllowed("project:update")
     @Transactional
     public void update(Project project) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
         projectDao.update(project);
     }
 
+    @RolesAllowed("project:delete")
     @Transactional
     public void delete(Project project) {
         ProjectDao projectDao = daoProvider.getDao(ProjectDao.class);
