@@ -14,7 +14,7 @@ public interface ProjectDao {
     List<Project> findAll(UserPrincipal principal);
 
     @Select
-    List<Project> findById(Identity<Project> id, UserPrincipal principal);
+    Project findById(Identity<Project> id, UserPrincipal principal);
 
     @Insert
     int insert(Project project);

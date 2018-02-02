@@ -16,6 +16,8 @@ public class Iteration implements Serializable {
     private Long id;
 
     private Long projectId;
+    private String subject;
+    private String description;
     private LocalDate startOn;
     private LocalDate endOn;
 }
