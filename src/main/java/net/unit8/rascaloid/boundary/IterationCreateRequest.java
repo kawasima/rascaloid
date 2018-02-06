@@ -8,4 +8,10 @@ public class IterationCreateRequest extends BoundaryBase {
 
     @NotBlank
     private String description;
+
+    @NotBlank
+    private String startOn;
+
+    @NotBlank
+    private String endOn;
 }

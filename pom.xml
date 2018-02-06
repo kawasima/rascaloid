@@ -108,13 +108,13 @@
         <dependency>
             <groupId>net.unit8.enkan</groupId>
             <artifactId>enkan-bouncr</artifactId>
-            <version>0.3.1</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>1.16.20</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -125,7 +125,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>LATEST</version>
+            <version>2.9.3</version>
         </dependency>
         <dependency>
             <groupId>net.unit8.enkan</groupId>
@@ -169,22 +169,6 @@
 
     <profiles>
         <profile>
-            <id>hazelcast+h2</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.196</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.hazelcast</groupId>
-                    <artifactId>hazelcast</artifactId>
-                    <version>3.8.4</version>
-                </dependency>
-            </dependencies>
-
-        </profile>
-        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -223,7 +207,7 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.6.0</version>
                         <configuration>
-                            <mainClass>backendexample.ReplMain</mainClass>
+                            <mainClass>ReplMain</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -243,18 +227,6 @@
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>1.4.196</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.apache.directory.server</groupId>
-                    <artifactId>apacheds-all</artifactId>
-                    <version>2.0.0-M24</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>*</groupId>
-                            <artifactId>*</artifactId>
-                        </exclusion>
-                    </exclusions>
                 </dependency>
 
                 <dependency>

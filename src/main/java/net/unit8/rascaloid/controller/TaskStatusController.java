@@ -9,6 +9,7 @@ import net.unit8.rascaloid.entity.TaskStatus;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.List;
 
 public class TaskStatusController {
     @Inject
@@ -16,6 +17,12 @@ public class TaskStatusController {
 
     @Inject
     private BeansConverter beansConverter;
+
+    public List<TaskStatus> list() {
+        TaskStatusDao taskStatusDao = daoProvider.getDao(TaskStatusDao.class);
+        List<TaskStatus> taskStatusList = taskStatusDao.findAll();
+        return taskStatusList;
+    }
 
     @Transactional
     public void create(TaskStatusCreateRequest createRequest) {
