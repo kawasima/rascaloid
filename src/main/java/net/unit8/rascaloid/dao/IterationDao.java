@@ -4,6 +4,7 @@ import enkan.security.UserPrincipal;
 import net.unit8.rascaloid.entity.Identity;
 import net.unit8.rascaloid.entity.Iteration;
 import net.unit8.rascaloid.entity.Project;
+import net.unit8.rascaloid.entity.Story;
 import org.seasar.doma.*;
 
 import java.util.List;
@@ -24,4 +25,10 @@ public interface IterationDao {
 
     @Delete
     int delete(Iteration iteration);
+
+    @Insert(sqlFile = true)
+    int addStory(Identity<Iteration> id, Identity<Story> storyId, Long position);
+
+    @Delete(sqlFile = true)
+    int removeStory(Identity<Iteration> id, Identity<Story> storyId);
 }

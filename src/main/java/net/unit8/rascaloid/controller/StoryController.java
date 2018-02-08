@@ -34,11 +34,13 @@ public class StoryController {
     }
 
     @Transactional
-    public void create(Parameters params, StoryCreateRequest createRequest) {
+    public Story create(Parameters params, StoryCreateRequest createRequest) {
         StoryDao storyDao = daoProvider.getDao(StoryDao.class);
         Story story = beansConverter.createFrom(createRequest, Story.class);
         story.setProjectId(new Identity<>(params.getLong("projectId")));
         storyDao.insert(story);
+
+        return story;
     }
 
     @Transactional

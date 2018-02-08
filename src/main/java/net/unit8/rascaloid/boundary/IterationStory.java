@@ -9,6 +9,8 @@ import java.util.List;
 
 @Value
 public class IterationStory {
+    private Long storyId;
+
     @NotBlank
     private String subject;
 

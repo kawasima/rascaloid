@@ -12,6 +12,7 @@ import enkan.component.jetty.JettyComponent;
 import enkan.config.EnkanSystemFactory;
 import enkan.system.EnkanSystem;
 import net.unit8.bouncr.sign.JsonWebToken;
+import org.seasar.doma.jdbc.Naming;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
 
 import static enkan.component.ComponentRelationship.*;
@@ -23,6 +24,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
         return EnkanSystem.of(
                 "doma", builder(new DomaProvider())
                         .set(DomaProvider::setDialect, new H2Dialect())
+                        .set(DomaProvider::setNaming, Naming.SNAKE_LOWER_CASE)
                         .build(),
                 "jwt", new JsonWebToken(),
                 "jackson", new JacksonBeansConverter(),

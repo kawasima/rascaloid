@@ -132,6 +132,11 @@
             <artifactId>enkan-repl-pseudo</artifactId>
             <version>${enkan.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.unit8.enkan</groupId>
+            <artifactId>enkan-repl-jshell</artifactId>
+            <version>${enkan.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.annotation</groupId>

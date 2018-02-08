@@ -2,6 +2,7 @@ package net.unit8.rascaloid.dao;
 
 import enkan.security.UserPrincipal;
 import net.unit8.rascaloid.entity.Identity;
+import net.unit8.rascaloid.entity.Iteration;
 import net.unit8.rascaloid.entity.Project;
 import net.unit8.rascaloid.entity.Story;
 import org.seasar.doma.*;
@@ -19,6 +20,9 @@ public interface StoryDao {
 
     @Select
     List<Story> findByIds(Set<Identity<Story>> ids);
+
+    @Select
+    List<Story> findByIterationId(Identity<Iteration> iterationId, UserPrincipal principal);
 
     @Insert
     int insert(Story story);

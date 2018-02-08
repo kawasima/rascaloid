@@ -32,16 +32,23 @@ public class IterationController {
         return iterationDao.findByProjectId(new Identity<>(params.getLong("projectId")), principal);
     }
 
-    public List<IterationStory> kanban(Parameters params) {
+    public Iteration show(Parameters params, UserPrincipal principal) {
+        IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
+        return iterationDao.findById(new Identity<>(params.getLong("iterationId")), principal);
+
+    }
+
+    public List<IterationStory> kanban(Parameters params, UserPrincipal principal) {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
         List<DevelopmentTask> tasks = taskDao.findDevelopmentTasksByIterationId(new Identity<>(params.getLong("iterationId")));
 
         Map<Identity<Story>, List<DevelopmentTask>> storyTasks = tasks.stream()
                 .collect(Collectors.groupingBy(DevelopmentTask::getStoryId));
         StoryDao storyDao = daoProvider.getDao(StoryDao.class);
-        return storyDao.findByIds(storyTasks.keySet())
+        return storyDao.findByIterationId(new Identity<>(params.getLong("iterationId")), principal)
                 .stream()
                 .map(story -> new IterationStory(
+                        story.getId().getValue(),
                         story.getSubject(),
                         story.getDescription(),
                         story.getPoint(),
@@ -50,14 +57,30 @@ public class IterationController {
     }
 
     @Transactional
-    public void create(IterationCreateRequest createRequest) {
+    public void create(Parameters params, IterationCreateRequest createRequest) {
         IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
         Iteration iteration = beansConverter.createFrom(createRequest, Iteration.class);
+        iteration.setProjectId(params.getLong("projectId"));
+
         iterationDao.insert(iteration);
     }
 
     @Transactional
     public void addStory(Parameters params) {
+        StoryDao storyDao = daoProvider.getDao(StoryDao.class);
+        Story story = storyDao.findById(new Identity<>(params.getLong("storyId")));
+        IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
 
+        iterationDao.addStory(new Identity<>(params.getLong("iterationId")),
+                story.getId(),
+                1l);
+    }
+
+    @Transactional
+    public void removeStory(Parameters params) {
+        IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
+
+        iterationDao.removeStory(new Identity<>(params.getLong("iterationId")),
+                new Identity<>(params.getLong("storyId")));
     }
 }
