@@ -43,8 +43,14 @@ public class V999__SetupTestData implements JdbcMigration {
                 .values(param(), param())
                 .getSQL();
 
+        final String INSERT_TASK_STATUS = create.insertInto(table("task_status"))
+                .columns(field("name"), field("position"))
+                .values(param(), param())
+                .getSQL();
+
         try(PreparedStatement projectStmt = connection.prepareStatement(INSERT_PROJECT, Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement iterationStmt = connection.prepareStatement(INSERT_ITERATION, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement iterationStmt = connection.prepareStatement(INSERT_ITERATION, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement taskStatusStmt = connection.prepareStatement(INSERT_TASK_STATUS, Statement.RETURN_GENERATED_KEYS)) {
             projectStmt.setString(1, "テストプロジェクト");
             projectStmt.setString(2, "これはテストです");
             projectStmt.executeUpdate();
@@ -57,6 +63,17 @@ public class V999__SetupTestData implements JdbcMigration {
             iterationStmt.setDate(5, new java.sql.Date(LocalDate.of(2020, 9, 1).atStartOfDay().toEpochSecond(ZoneOffset.UTC)));
             Long iterationId = fetchGeneratedKey(iterationStmt);
 
+            taskStatusStmt.setString(1, "TODO");
+            taskStatusStmt.setLong(2, 1l);
+            taskStatusStmt.executeUpdate();
+
+            taskStatusStmt.setString(1, "Doing");
+            taskStatusStmt.setLong(2, 2l);
+            taskStatusStmt.executeUpdate();
+
+            taskStatusStmt.setString(1, "Done");
+            taskStatusStmt.setLong(2, 3l);
+            taskStatusStmt.executeUpdate();
 
             connection.commit();
         }

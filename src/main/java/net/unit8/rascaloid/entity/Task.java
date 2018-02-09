@@ -24,9 +24,8 @@ public class Task implements Serializable {
     private BigDecimal estimatedHours;
 
     @Column(name = "status_id")
-    @JsonIgnore
     private Identity<TaskStatus> statusId;
 
     @Column(insertable = false, updatable = false)
-    private String status;
+    private String statusName;
 }
