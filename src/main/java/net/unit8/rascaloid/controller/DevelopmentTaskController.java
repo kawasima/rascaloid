@@ -37,8 +37,6 @@ public class DevelopmentTaskController {
         task.setProjectId(story.getProjectId());
 
         TaskStatusDao taskStatusDao = daoProvider.getDao(TaskStatusDao.class);
-        TaskStatus taskStatus = taskStatusDao.findByName(createRequest.getStatus());
-        task.setStatusId(taskStatus.getId());
         taskDao.insert(task);
     }
 

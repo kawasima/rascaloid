@@ -52,6 +52,7 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
             r.delete("/iteration/:iterationId/removeStory/:storyId").to(IterationController.class, "removeStory");
             r.get("/iteration/:iterationId/kanban").to(IterationController.class, "kanban");
 
+            r.get("/taskStatus").to(TaskStatusController.class, "list");
             r.post("/taskStatus").to(TaskStatusController.class, "create");
         }).compile();
 

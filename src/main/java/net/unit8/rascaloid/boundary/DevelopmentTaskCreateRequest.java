@@ -25,5 +25,5 @@ public class DevelopmentTaskCreateRequest extends BoundaryBase {
     @NotNull
     private Long storyId;
 
-    private String status;
+    private Long statusId;
 }
