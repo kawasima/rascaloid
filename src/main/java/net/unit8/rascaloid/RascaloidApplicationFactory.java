@@ -8,18 +8,18 @@ import enkan.middleware.*;
 import enkan.middleware.doma2.DomaTransactionMiddleware;
 import enkan.security.bouncr.BouncrBackend;
 import enkan.system.inject.ComponentInjector;
+import enkan.util.Predicates;
 import kotowari.middleware.*;
 import kotowari.routing.Routes;
 import net.unit8.rascaloid.controller.*;
-import net.unit8.rascaloid.entity.DevelopmentTask;
 import net.unit8.rascaloid.middleware.AuthorizeControllerMethodMiddleware;
 import net.unit8.rascaloid.middleware.UserAutoRegisterMiddleware;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 import static enkan.util.BeanBuilder.builder;
-import static enkan.util.Predicates.NONE;
 
 public class RascaloidApplicationFactory implements ApplicationFactory {
     @Override
@@ -56,15 +56,15 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
             r.post("/taskStatus").to(TaskStatusController.class, "create");
         }).compile();
 
-        app.use(new DefaultCharsetMiddleware());
-        app.use(NONE, new ServiceUnavailableMiddleware<>(new ResourceEndpoint("/public/html/503.html")));
-        app.use(new ContentTypeMiddleware());
-        app.use(new ParamsMiddleware());
-        app.use(new MultipartParamsMiddleware());
-        app.use(new MethodOverrideMiddleware());
-        app.use(new NormalizationMiddleware());
-        app.use(new NestedParamsMiddleware());
-        app.use(new CookiesMiddleware());
+        app.use(new DefaultCharsetMiddleware<>());
+        app.use(Predicates.none(), new ServiceUnavailableMiddleware<>(new ResourceEndpoint("/public/html/503.html")));
+        app.use(new ContentTypeMiddleware<>());
+        app.use(new ParamsMiddleware<>());
+        app.use(new MultipartParamsMiddleware<>());
+        app.use(new MethodOverrideMiddleware<>());
+        app.use(new NormalizationMiddleware<>());
+        app.use(new NestedParamsMiddleware<>());
+        app.use(new CookiesMiddleware<>());
 
         app.use(builder(new ContentNegotiationMiddleware())
                 .set(ContentNegotiationMiddleware::setAllowedLanguages,
@@ -76,16 +76,16 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
                 .build());
         BouncrBackend bouncrBackend = new BouncrBackend();
         injector.inject(bouncrBackend);
-        app.use(new AuthenticationMiddleware<>(Arrays.asList(bouncrBackend)));
-        app.use(new ResourceMiddleware());
-        app.use(new RenderTemplateMiddleware());
-        app.use(new RoutingMiddleware(routes));
-        app.use(new AuthorizeControllerMethodMiddleware());
+        app.use(new AuthenticationMiddleware<>(Collections.singletonList(bouncrBackend)));
+        app.use(new ResourceMiddleware<>());
+        app.use(new RenderTemplateMiddleware<>());
+        app.use(new RoutingMiddleware<>(routes));
+        app.use(new AuthorizeControllerMethodMiddleware<>());
         app.use(new DomaTransactionMiddleware<>());
         // For development; If the authenticated user is unregistered, register the user automatically.
-        app.use(new UserAutoRegisterMiddleware());
-        app.use(new FormMiddleware());
-        app.use(new SerDesMiddleware());
+        app.use(new UserAutoRegisterMiddleware<>());
+        app.use(new FormMiddleware<>());
+        app.use(new SerDesMiddleware<>());
         app.use(new ValidateBodyMiddleware<>());
         app.use(new ControllerInvokerMiddleware<>(injector));
 

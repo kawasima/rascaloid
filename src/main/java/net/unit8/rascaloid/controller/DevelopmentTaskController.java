@@ -22,8 +22,7 @@ public class DevelopmentTaskController {
 
     public List<DevelopmentTask> list(Parameters params) {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
-        List<DevelopmentTask> tasks = taskDao.findDevelopmentTasksByStoryId(new Identity<>(params.getLong("storyId")));
-        return tasks;
+        return taskDao.findDevelopmentTasksByStoryId(new Identity<>(params.getLong("storyId")));
     }
 
     @Transactional

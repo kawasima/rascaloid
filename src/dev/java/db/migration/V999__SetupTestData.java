@@ -13,7 +13,7 @@ import static org.jooq.impl.DSL.*;
 public class V999__SetupTestData implements JdbcMigration {
     private Long fetchGeneratedKey(PreparedStatement stmt) throws SQLException {
         try (ResultSet rs = stmt.getGeneratedKeys()) {
-            while(rs.next()) {
+            if(rs.next()) {
                 return rs.getLong(1);
             }
             throw new SQLException("Generated key is not found.");
@@ -64,15 +64,15 @@ public class V999__SetupTestData implements JdbcMigration {
             Long iterationId = fetchGeneratedKey(iterationStmt);
 
             taskStatusStmt.setString(1, "TODO");
-            taskStatusStmt.setLong(2, 1l);
+            taskStatusStmt.setLong(2, 1L);
             taskStatusStmt.executeUpdate();
 
             taskStatusStmt.setString(1, "Doing");
-            taskStatusStmt.setLong(2, 2l);
+            taskStatusStmt.setLong(2, 2L);
             taskStatusStmt.executeUpdate();
 
             taskStatusStmt.setString(1, "Done");
-            taskStatusStmt.setLong(2, 3l);
+            taskStatusStmt.setLong(2, 3L);
             taskStatusStmt.executeUpdate();
 
             connection.commit();

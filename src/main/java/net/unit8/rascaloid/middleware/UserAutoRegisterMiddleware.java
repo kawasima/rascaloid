@@ -12,16 +12,15 @@ import net.unit8.rascaloid.dao.UserDao;
 import net.unit8.rascaloid.entity.User;
 
 import javax.inject.Inject;
-import java.security.Principal;
 
 import static enkan.util.BeanBuilder.builder;
 @Middleware(name = "userAutoRegister", dependencies = "authentication")
-public class UserAutoRegisterMiddleware extends AbstractWebMiddleware {
+public class UserAutoRegisterMiddleware<NRES> extends AbstractWebMiddleware<HttpRequest, NRES> {
     @Inject
     private DomaProvider daoProvider;
 
     @Override
-    public HttpResponse handle(HttpRequest request, MiddlewareChain chain) {
+    public HttpResponse handle(HttpRequest request, MiddlewareChain<HttpRequest, NRES, ?, ?> chain) {
         UserPermissionPrincipal principal = (UserPermissionPrincipal) PrincipalAvailable.class.cast(request).getPrincipal();
         if (principal != null) {
             UserDao userDao = daoProvider.getDao(UserDao.class);

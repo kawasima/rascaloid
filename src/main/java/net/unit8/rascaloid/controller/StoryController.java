@@ -5,12 +5,9 @@ import enkan.component.BeansConverter;
 import enkan.component.doma2.DomaProvider;
 import enkan.security.UserPrincipal;
 import net.unit8.rascaloid.boundary.StoryCreateRequest;
-import net.unit8.rascaloid.dao.ProjectDao;
 import net.unit8.rascaloid.dao.StoryDao;
 import net.unit8.rascaloid.entity.Identity;
-import net.unit8.rascaloid.entity.Project;
 import net.unit8.rascaloid.entity.Story;
-import org.seasar.doma.Dao;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;

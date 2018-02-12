@@ -1,6 +1,5 @@
 package net.unit8.rascaloid.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.seasar.doma.*;
 

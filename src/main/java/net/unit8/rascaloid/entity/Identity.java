@@ -2,11 +2,11 @@ package net.unit8.rascaloid.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.EqualsAndHashCode;
 import org.seasar.doma.Domain;
 
 @Domain(valueType = Long.class)
+@EqualsAndHashCode
 public class Identity<T> {
     @JsonCreator
     public Identity(Long value) {

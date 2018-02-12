@@ -6,13 +6,10 @@ import enkan.component.doma2.DomaProvider;
 import enkan.security.UserPrincipal;
 import net.unit8.rascaloid.boundary.IterationCreateRequest;
 import net.unit8.rascaloid.boundary.IterationStory;
-import net.unit8.rascaloid.boundary.ProjectCreateRequest;
 import net.unit8.rascaloid.dao.IterationDao;
-import net.unit8.rascaloid.dao.ProjectDao;
 import net.unit8.rascaloid.dao.StoryDao;
 import net.unit8.rascaloid.dao.TaskDao;
 import net.unit8.rascaloid.entity.*;
-import org.seasar.doma.Dao;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -73,7 +70,7 @@ public class IterationController {
 
         iterationDao.addStory(new Identity<>(params.getLong("iterationId")),
                 story.getId(),
-                1l);
+                1L);
     }
 
     @Transactional

@@ -2,7 +2,6 @@ package net.unit8.rascaloid.boundary;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.unit8.rascaloid.entity.TaskStatus;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;

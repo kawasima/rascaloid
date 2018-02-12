@@ -2,7 +2,6 @@ package net.unit8.rascaloid.controller;
 
 import enkan.component.BeansConverter;
 import enkan.component.doma2.DomaProvider;
-import net.unit8.rascaloid.boundary.DevelopmentTaskCreateRequest;
 import net.unit8.rascaloid.boundary.TaskStatusCreateRequest;
 import net.unit8.rascaloid.dao.TaskStatusDao;
 import net.unit8.rascaloid.entity.TaskStatus;
@@ -20,8 +19,7 @@ public class TaskStatusController {
 
     public List<TaskStatus> list() {
         TaskStatusDao taskStatusDao = daoProvider.getDao(TaskStatusDao.class);
-        List<TaskStatus> taskStatusList = taskStatusDao.findAll();
-        return taskStatusList;
+        return taskStatusDao.findAll();
     }
 
     @Transactional

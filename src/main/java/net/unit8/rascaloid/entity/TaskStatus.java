@@ -1,7 +1,6 @@
 package net.unit8.rascaloid.entity;
 
 import lombok.Data;
-import lombok.Value;
 import org.seasar.doma.*;
 
 import java.io.Serializable;
