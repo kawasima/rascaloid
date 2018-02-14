@@ -66,11 +66,11 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
         app.use(new NestedParamsMiddleware<>());
         app.use(new CookiesMiddleware<>());
 
-        app.use(builder(new ContentNegotiationMiddleware())
+        app.use(builder(new ContentNegotiationMiddleware<>())
                 .set(ContentNegotiationMiddleware::setAllowedLanguages,
                         new HashSet<>(Arrays.asList("en", "ja")))
                 .build());
-        app.use(builder(new CorsMiddleware())
+        app.use(builder(new CorsMiddleware<>())
                 .set(CorsMiddleware::setHeaders,
                         new HashSet<>(Arrays.asList("X-Bouncr-Credential", "Content-Type")))
                 .build());
