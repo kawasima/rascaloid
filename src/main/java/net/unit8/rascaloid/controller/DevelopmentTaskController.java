@@ -20,6 +20,10 @@ public class DevelopmentTaskController {
     @Inject
     private BeansConverter beansConverter;
 
+    public DevelopmentTask show(Parameters params) {
+        TaskDao taskDao = daoProvider.getDao(TaskDao.class);
+        return taskDao.findDevelopmentTaskById(new Identity<>(params.getLong("taskId")));
+    }
     public List<DevelopmentTask> list(Parameters params) {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
         return taskDao.findDevelopmentTasksByStoryId(new Identity<>(params.getLong("storyId")));
@@ -40,8 +44,10 @@ public class DevelopmentTaskController {
     }
 
     @Transactional
-    public void update(DevelopmentTask task) {
+    public void update(DevelopmentTaskCreateRequest taskRequest, Parameters params) {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
+        DevelopmentTask task = taskDao.findDevelopmentTaskById(new Identity<>(params.getLong("taskId")));
+        beansConverter.copy(taskRequest, task, BeansConverter.CopyOption.REPLACE_NON_NULL);
         taskDao.update(task);
     }
 

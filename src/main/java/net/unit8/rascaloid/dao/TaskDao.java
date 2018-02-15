@@ -10,6 +10,9 @@ import java.util.List;
 @Dao
 public interface TaskDao {
     @Select
+    DevelopmentTask findDevelopmentTaskById(Identity<Task> taskId);
+
+    @Select
     List<DevelopmentTask> findDevelopmentTasksByStoryId(Identity<Story> storyId);
 
     @Select
