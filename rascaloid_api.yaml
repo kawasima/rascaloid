@@ -55,6 +55,21 @@ paths:
         '405':
           description: Invalid input
   '/project/{projectId}':
+    get:
+      tags:
+        - project
+      summary: find an existing project
+      operationId: findProject
+      parameters:
+        - $ref: '#/component/parameters/projectId'
+        - $ref: '#/components/parameters/bouncrCredential'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
     put:
       tags:
         - project
@@ -98,7 +113,7 @@ paths:
       responses:
         '404':
           description: Project not found
-  '/project/{projectId}/stories':
+  /project/{projectId}/stories:
     get:
       tags:
         - stories
@@ -127,8 +142,12 @@ paths:
             schema:
               $ref: '#/components/schemas/Story'
       responses:
-        '204':
+        '200':
           description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Story'
   '/story/{storyId}':
     get:
       tags:
@@ -204,6 +223,24 @@ paths:
       responses:
         '204':
           description: successful
+  /story/{storyId}/tasks/byStatus:
+    get:
+      tags:
+        - task
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/storyId'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Task'
   '/project/{projectId}/iterations':
     get:
       tags:
@@ -235,6 +272,59 @@ paths:
       responses:
         '204':
           description: Successful
+  /iteration/{iterationId}:
+    get:
+      tags:
+        - iteration
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/iterationId'
+      responses:
+        '200':
+          description: iteration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Iteration'
+  /iteration/{iterationId}/kanban:
+    get:
+      tags:
+        - iteration
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/iterationId'
+      responses:
+        '200':
+          description: Get iteration stories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IterationStory'
+  /iteration/{iterationId}/addStory/{storyId}:
+    put:
+      tags:
+        - iteration
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/iterationId'
+        - $ref: '#/components/parameters/storyId'
+      responses:
+        '204':
+          description: Successful
+  /iteration/{iterationId}/removeStory/{storyId}:
+    delete:
+      tags:
+        - iteration
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+        - $ref: '#/components/parameters/iterationId'
+        - $ref: '#/components/parameters/storyId'
+      responses:
+        '204':
+          description: Successful
+
   '/task/{taskId}':
     get:
       tags:
@@ -255,10 +345,29 @@ paths:
       parameters:
         - $ref: '#/components/parameters/bouncrCredential'
         - $ref: '#/components/parameters/taskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
       responses:
         '204':
           description: Successful
   /taskStatus:
+    get:
+      tags:
+        - taskStatus
+      parameters:
+        - $ref: '#/components/parameters/bouncrCredential'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskStatus'
     post:
       tags:
         - taskStatus
@@ -305,6 +414,24 @@ components:
         subject: Story1
         description: Implements story1
         point: 5
+    IterationStory:
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        point:
+          type: number
+          format: double
+        developmentTasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      example:
+        subject: Story1
+        description: Implements story1
+        point: 5
     Task:
       type: object
       properties:
@@ -318,6 +445,9 @@ components:
         estimatedHours:
           type: number
           format: double
+        statusId:
+          type: number
+          format: int32
         status:
           $ref: '#/components/schemas/TaskStatus'
       example:

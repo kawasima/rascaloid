@@ -12,6 +12,8 @@ import net.unit8.rascaloid.entity.*;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DevelopmentTaskController {
     @Inject
@@ -24,10 +26,19 @@ public class DevelopmentTaskController {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
         return taskDao.findDevelopmentTaskById(new Identity<>(params.getLong("taskId")));
     }
+
     public List<DevelopmentTask> list(Parameters params) {
         TaskDao taskDao = daoProvider.getDao(TaskDao.class);
         return taskDao.findDevelopmentTasksByStoryId(new Identity<>(params.getLong("storyId")));
     }
+
+    public Map<Identity<TaskStatus>, List<DevelopmentTask>> listByStatus(Parameters params) {
+        TaskDao taskDao = daoProvider.getDao(TaskDao.class);
+        return taskDao.findDevelopmentTasksByStoryId(new Identity<>(params.getLong("storyId")))
+                .stream()
+                .collect(Collectors.groupingBy(Task::getStatusId, Collectors.toList()));
+    }
+
 
     @Transactional
     public void create(Parameters params, DevelopmentTaskCreateRequest createRequest) {
