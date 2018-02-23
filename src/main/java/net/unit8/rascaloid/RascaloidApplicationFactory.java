@@ -14,6 +14,7 @@ import kotowari.routing.Routes;
 import net.unit8.rascaloid.controller.*;
 import net.unit8.rascaloid.middleware.AuthorizeControllerMethodMiddleware;
 import net.unit8.rascaloid.middleware.UserAutoRegisterMiddleware;
+import net.unit8.rascaloid.middleware.WebJarsMiddleware;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,6 +81,7 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
         BouncrBackend bouncrBackend = new BouncrBackend();
         injector.inject(bouncrBackend);
         app.use(new AuthenticationMiddleware<>(Collections.singletonList(bouncrBackend)));
+        app.use(new WebJarsMiddleware<>());
         app.use(new ResourceMiddleware<>());
         app.use(new RenderTemplateMiddleware<>());
         app.use(new RoutingMiddleware<>(routes));

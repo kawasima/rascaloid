@@ -61,7 +61,7 @@ paths:
       summary: find an existing project
       operationId: findProject
       parameters:
-        - $ref: '#/component/parameters/projectId'
+        - $ref: '#/components/parameters/projectId'
         - $ref: '#/components/parameters/bouncrCredential'
       responses:
         '200':
@@ -531,4 +531,4 @@ components:
         type: string
       description: bouncr credential
       example: >-
-        eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyMSIsIm5hbWUiOiJUZXN0IHVzZXIxIiwicGVybWlzc2lvbnMiOlsiUkVBRF9QUk9KRUNUIiwiV1JJVEVfUFJPSkVDVCJdfQ.YmnrzSdzEgVrUM8EWp4yQSE-AfOnG3kzscksuSCJFSQ
+        eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyMSIsIm5hbWUiOiJUZXN0IHVzZXIxIiwicGVybWlzc2lvbnMiOlsicHJvamVjdDpyZWFkIiwicHJvamVjdDpjcmVhdGUiLCJwcm9qZWN0OnVwZGF0ZSIsInByb2plY3Q6ZGVsZXRlIl19.lfegO1IXi1hlBETymqw8nqRaq7POrnriJU_5YK2R-PI
