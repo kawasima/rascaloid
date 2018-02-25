@@ -35,7 +35,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                 )),
                 "app", new ApplicationComponent("net.unit8.rascaloid.RascaloidApplicationFactory"),
                 "http", builder(new JettyComponent())
-                        .set(JettyComponent::setPort, 3000)
+                        .set(JettyComponent::setPort, Env.getInt("PORT", 3000))
                         .build()
 
         ).relationships(
