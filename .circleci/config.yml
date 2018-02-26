@@ -40,4 +40,5 @@ jobs:
       # run tests!
       - run: mvn -P-dev,container integration-test
 
-      - run: mv target/rascaloid-0.1.0-SNAPSHOT.jar $CIRCLE_ARTIFACTS
+      - store_artifacts:
+          path: target/rascaloid-0.1.0-SNAPSHOT.jar
