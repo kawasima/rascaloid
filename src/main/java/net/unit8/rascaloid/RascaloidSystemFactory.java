@@ -13,7 +13,7 @@ import enkan.config.EnkanSystemFactory;
 import enkan.system.EnkanSystem;
 import net.unit8.bouncr.sign.JsonWebToken;
 import org.seasar.doma.jdbc.Naming;
-import org.seasar.doma.jdbc.dialect.H2Dialect;
+import org.seasar.doma.jdbc.dialect.*;
 
 import static enkan.component.ComponentRelationship.*;
 import static enkan.util.BeanBuilder.*;
@@ -23,7 +23,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
     public EnkanSystem create() {
         return EnkanSystem.of(
                 "doma", builder(new DomaProvider())
-                        .set(DomaProvider::setDialect, new H2Dialect())
+                        .set(DomaProvider::setDialect, detectDialect())
                         .set(DomaProvider::setNaming, Naming.SNAKE_LOWER_CASE)
                         .build(),
                 "jwt", new JsonWebToken(),
@@ -47,5 +47,19 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                 component("doma").using("datasource", "flyway"),
                 component("flyway").using("datasource")
         );
+    }
+
+    private Dialect detectDialect() {
+        String jdbcUrl=Env.get("JDBC_URL");
+        if (jdbcUrl != null) {
+            if (jdbcUrl.startsWith("jdbc:h2:")) {
+                return new H2Dialect();
+            } else if (jdbcUrl.startsWith("jdbc:postgresql:")) {
+                return new PostgresDialect();
+            } else if (jdbcUrl.startsWith("jdbc:mysql:")) {
+                return new MysqlDialect();
+            }
+        }
+        return new H2Dialect();
     }
 }
