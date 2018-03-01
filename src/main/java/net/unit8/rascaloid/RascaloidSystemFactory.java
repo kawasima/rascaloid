@@ -31,7 +31,9 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                 "flyway", new FlywayMigration(),
                 "template", new FreemarkerTemplateEngine(),
                 "datasource", new HikariCPComponent(OptionMap.of(
-                        "uri", Env.getString("JDBC_URL", "jdbc:h2:mem:test")
+                        "uri", Env.getString("JDBC_URL", "jdbc:h2:mem:test"),
+                        "username", Env.getString("JDBC_USER", ""),
+                        "password", Env.getString("JDBC_PASS", "")
                 )),
                 "app", new ApplicationComponent("net.unit8.rascaloid.RascaloidApplicationFactory"),
                 "http", builder(new JettyComponent())
