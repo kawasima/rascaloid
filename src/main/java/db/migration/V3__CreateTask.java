@@ -72,20 +72,20 @@ public class V3__CreateTask implements JdbcMigration {
         DSLContext create = DSL.using(connection);
         final String INSERT_TASK_STATUS = create.insertInto(table("task_status"))
                 .columns(field("name"), field("position"))
-                .values(param(), param())
+                .values(param(), param(SQLDataType.INTEGER))
                 .getSQL();
 
         try (PreparedStatement taskStatusStmt = connection.prepareStatement(INSERT_TASK_STATUS, Statement.RETURN_GENERATED_KEYS)) {
             taskStatusStmt.setString(1, "TODO");
-            taskStatusStmt.setLong(2, 1L);
+            taskStatusStmt.setInt(2, 1);
             taskStatusStmt.executeUpdate();
 
             taskStatusStmt.setString(1, "Doing");
-            taskStatusStmt.setLong(2, 2L);
+            taskStatusStmt.setInt(2, 2);
             taskStatusStmt.executeUpdate();
 
             taskStatusStmt.setString(1, "Done");
-            taskStatusStmt.setLong(2, 3L);
+            taskStatusStmt.setInt(2, 3);
             taskStatusStmt.executeUpdate();
         }
     }
