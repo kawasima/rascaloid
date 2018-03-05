@@ -6,6 +6,7 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,6 +20,8 @@ public class V3__CreateTask implements JdbcMigration {
             createTask(stmt);
             createDevelopmentTask(stmt);
         }
+
+        insertTaskStatus(connection);
     }
 
     private void createTaskStatus(Statement stmt) throws SQLException {
@@ -63,5 +66,27 @@ public class V3__CreateTask implements JdbcMigration {
                 )
                 .getSQL();
         stmt.execute(ddl);
+    }
+
+    private void insertTaskStatus(Connection connection) throws SQLException {
+        DSLContext create = DSL.using(connection);
+        final String INSERT_TASK_STATUS = create.insertInto(table("task_status"))
+                .columns(field("name"), field("position"))
+                .values(param(), param())
+                .getSQL();
+
+        try (PreparedStatement taskStatusStmt = connection.prepareStatement(INSERT_TASK_STATUS, Statement.RETURN_GENERATED_KEYS)) {
+            taskStatusStmt.setString(1, "TODO");
+            taskStatusStmt.setLong(2, 1L);
+            taskStatusStmt.executeUpdate();
+
+            taskStatusStmt.setString(1, "Doing");
+            taskStatusStmt.setLong(2, 2L);
+            taskStatusStmt.executeUpdate();
+
+            taskStatusStmt.setString(1, "Done");
+            taskStatusStmt.setLong(2, 3L);
+            taskStatusStmt.executeUpdate();
+        }
     }
 }
