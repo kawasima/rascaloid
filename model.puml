@@ -54,6 +54,32 @@ entity DevelopmentTask {
   + story_id
 }
 
+entity User {
+  + user_id [PK]
+  --
+  account
+}
+
+entity Membership {
+  + user_id [PK]
+  + project_id [PK]
+}
+
+entity TaskAssignment {
+  + task_assignment_id
+  --
+  task_id
+  user_id
+  work_on
+}
+
+entity IterationContributionPlan {
+  + user_id
+  + iteration_id
+  --
+  hours
+}
+
 Project --right--{ Iteration
 Project ----{ Story
 Iteration ----{ IterationPlan
@@ -63,4 +89,10 @@ Task ---o| DevelopmentTask
 Task ---o| Overheads
 Task }--- TaskStatus
 DevelopmentTask }---- Story
+Project ----{ Membership
+Membership }----- User
+Task ----{ TaskAssignment
+User }---- TaskAssignment
+IterationContributionPlan }---- User
+IterationContributionPlan }---- Iteration
 @enduml

@@ -4,6 +4,7 @@ import enkan.collection.Parameters;
 import enkan.component.BeansConverter;
 import enkan.component.doma2.DomaProvider;
 import enkan.security.UserPrincipal;
+import net.unit8.rascaloid.boundary.IterationContributionPlanRequest;
 import net.unit8.rascaloid.boundary.IterationCreateRequest;
 import net.unit8.rascaloid.boundary.IterationStory;
 import net.unit8.rascaloid.dao.IterationDao;
@@ -79,5 +80,11 @@ public class IterationController {
 
         iterationDao.removeStory(new Identity<>(params.getLong("iterationId")),
                 new Identity<>(params.getLong("storyId")));
+    }
+
+    @Transactional
+    public void contributionPlan(List<IterationContributionPlanRequest> plans, Parameters params) {
+        IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
+
     }
 }
