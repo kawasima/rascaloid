@@ -16,6 +16,7 @@ import net.unit8.rascaloid.middleware.AuthorizeControllerMethodMiddleware;
 import net.unit8.rascaloid.middleware.UserAutoRegisterMiddleware;
 import net.unit8.rascaloid.middleware.WebJarsMiddleware;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,11 +24,15 @@ import java.util.HashSet;
 import static enkan.util.BeanBuilder.builder;
 
 public class RascaloidApplicationFactory implements ApplicationFactory {
+    @Inject
+    private RascaloidConfiguration config;
+
     @Override
     public Application create(ComponentInjector injector) {
         WebApplication app = new WebApplication();
+        injector.inject(this);
 
-        Routes routes = Routes.define(r -> {
+        Routes routes = Routes.define(root -> root.scope(config.getBasePath(), r-> {
             r.get("/projects").to(ProjectController.class, "list");
             r.post("/projects").to(ProjectController.class, "create");
             r.put("/project/:projectId").to(ProjectController.class, "update");
@@ -58,7 +63,7 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
 
             r.get("/taskStatus").to(TaskStatusController.class, "list");
             r.post("/taskStatus").to(TaskStatusController.class, "create");
-        }).compile();
+        })).compile();
 
         app.use(new DefaultCharsetMiddleware<>());
         app.use(Predicates.none(), new ServiceUnavailableMiddleware<>(new ResourceEndpoint("/public/html/503.html")));

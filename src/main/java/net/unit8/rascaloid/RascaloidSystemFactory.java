@@ -36,6 +36,9 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                         .set(DomaProvider::setDialect, detectDialect())
                         .set(DomaProvider::setNaming, Naming.SNAKE_LOWER_CASE)
                         .build(),
+                "config", builder(new RascaloidConfiguration())
+                        .set(RascaloidConfiguration::setBasePath, Env.getString("PREFIX", ""))
+                        .build(),
                 "jwt", new JsonWebToken(),
                 "jackson", new JacksonBeansConverter(),
                 "flyway", new FlywayMigration(),
@@ -51,7 +54,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
         ).relationships(
                 component("http").using("app"),
                 component("app").using(
-                        "datasource", "template", "doma", "jackson", "jwt"),
+                        "datasource", "template", "doma", "jackson", "jwt", "config"),
                 component("doma").using("datasource", "flyway"),
                 component("flyway").using("datasource")
         );
