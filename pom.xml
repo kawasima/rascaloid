@@ -165,6 +165,16 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>swagger-ui</artifactId>
+                <version>3.10.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <profiles>
         <profile>
@@ -216,6 +226,10 @@
                     <groupId>org.jsr107.ri</groupId>
                     <artifactId>cache-ri-impl</artifactId>
                     <version>1.0.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.webjars</groupId>
+                    <artifactId>swagger-ui</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>com.h2database</groupId>
@@ -270,7 +284,6 @@
                 <dependency>
                     <groupId>org.webjars</groupId>
                     <artifactId>swagger-ui</artifactId>
-                    <version>3.10.0</version>
                 </dependency>
                 <dependency>
                     <groupId>org.jsr107.ri</groupId>
