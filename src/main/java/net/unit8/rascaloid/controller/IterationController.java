@@ -85,6 +85,10 @@ public class IterationController {
     @Transactional
     public void contributionPlan(List<IterationContributionPlanRequest> plans, Parameters params) {
         IterationDao iterationDao = daoProvider.getDao(IterationDao.class);
-
+        Identity<Iteration> iterationId = new Identity<>(params.getLong("iterationId"));
+        iterationDao.clearContributionPlan(iterationId);
+        plans.stream().forEach(plan -> {
+            iterationDao.addContributionPlan(iterationId, new Identity<>(plan.getUserId()), plan.getHours());
+        });
     }
 }

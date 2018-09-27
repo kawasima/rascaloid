@@ -1,12 +1,10 @@
 package net.unit8.rascaloid.dao;
 
 import enkan.security.UserPrincipal;
-import net.unit8.rascaloid.entity.Identity;
-import net.unit8.rascaloid.entity.Iteration;
-import net.unit8.rascaloid.entity.Project;
-import net.unit8.rascaloid.entity.Story;
+import net.unit8.rascaloid.entity.*;
 import org.seasar.doma.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Dao
@@ -31,4 +29,10 @@ public interface IterationDao {
 
     @Delete(sqlFile = true)
     int removeStory(Identity<Iteration> id, Identity<Story> storyId);
+
+    @Insert(sqlFile = true)
+    int addContributionPlan(Identity<Iteration> id, Identity<User> userId, BigDecimal hours);
+
+    @Delete(sqlFile = true)
+    int clearContributionPlan(Identity<Iteration> id);
 }
