@@ -1,14 +1,19 @@
 package net.unit8.rascaloid.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
+import javax.persistence.*;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Table(name ="development_tasks")
 public class DevelopmentTask extends Task {
-    @Column(name = "story_id")
-    private Identity<Story> storyId;
+    @OneToOne
+    @JoinColumn(name = "story_id")
+    private Long story;
+
+    public Long getStory() {
+        return story;
+    }
+
+    public void setStory(Long storyId) {
+        this.story = story;
+    }
 }

@@ -8,8 +8,6 @@ import enkan.middleware.AbstractWebMiddleware;
 import enkan.util.CodecUtils;
 import enkan.util.HttpRequestUtils;
 import enkan.util.HttpResponseUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.webjars.WebJarAssetLocator;
 
 import java.util.*;
@@ -57,16 +55,28 @@ public class WebJarsMiddleware<NRES> extends AbstractWebMiddleware<HttpRequest, 
         return castToHttpResponse(chain.next(request));
     }
 
-    @AllArgsConstructor
     private static class AssetMapEntry implements Map.Entry<String, String> {
-        @Getter
         private String key;
-        @Getter
         private String value;
+
+        public AssetMapEntry(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
 
         @Override
         public String setValue(String value) {
             this.value = value;
+            return value;
+        }
+
+        @Override
+        public String getKey() {
+            return key;
+        }
+
+        @Override
+        public String getValue() {
             return value;
         }
     }

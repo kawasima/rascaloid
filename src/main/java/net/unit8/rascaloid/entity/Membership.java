@@ -1,15 +1,12 @@
 package net.unit8.rascaloid.entity;
 
-import lombok.Data;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "memberships")
-@Data
 public class Membership implements Serializable {
     @Id
     private Long projectId;
@@ -17,4 +14,19 @@ public class Membership implements Serializable {
     @Id
     private Long userId;
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

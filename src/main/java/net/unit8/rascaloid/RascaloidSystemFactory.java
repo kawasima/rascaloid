@@ -3,35 +3,37 @@ package net.unit8.rascaloid;
 import enkan.Env;
 import enkan.collection.OptionMap;
 import enkan.component.ApplicationComponent;
-import enkan.component.doma2.DomaProvider;
+import enkan.component.eclipselink.EclipseLinkEntityManagerProvider;
 import enkan.component.flyway.FlywayMigration;
-import enkan.component.freemarker.FreemarkerTemplateEngine;
 import enkan.component.hikaricp.HikariCPComponent;
 import enkan.component.jackson.JacksonBeansConverter;
 import enkan.component.jetty.JettyComponent;
 import enkan.config.EnkanSystemFactory;
 import enkan.system.EnkanSystem;
 import net.unit8.bouncr.sign.JsonWebToken;
-import org.seasar.doma.jdbc.Naming;
-import org.seasar.doma.jdbc.dialect.*;
+import net.unit8.rascaloid.entity.*;
 
-import static enkan.component.ComponentRelationship.*;
-import static enkan.util.BeanBuilder.*;
+import static enkan.component.ComponentRelationship.component;
+import static enkan.util.BeanBuilder.builder;
 
 public class RascaloidSystemFactory implements EnkanSystemFactory {
     @Override
     public EnkanSystem create() {
         return EnkanSystem.of(
-                "doma", builder(new DomaProvider())
-                        .set(DomaProvider::setDialect, detectDialect())
-                        .set(DomaProvider::setNaming, Naming.SNAKE_LOWER_CASE)
-                        .build(),
                 "jwt", new JsonWebToken(),
                 "jackson", new JacksonBeansConverter(),
                 "flyway", new FlywayMigration(),
-                "template", new FreemarkerTemplateEngine(),
+                "jpa", builder(new EclipseLinkEntityManagerProvider())
+                        .set(EclipseLinkEntityManagerProvider::setName, "rascaloid")
+                        .set(EclipseLinkEntityManagerProvider::registerClass, Project.class)
+                        .set(EclipseLinkEntityManagerProvider::registerClass, Story.class)
+                        .set(EclipseLinkEntityManagerProvider::registerClass, Task.class)
+                        .set(EclipseLinkEntityManagerProvider::registerClass, TaskStatus.class)
+                        .set(EclipseLinkEntityManagerProvider::registerClass, Iteration.class)
+                        .set(EclipseLinkEntityManagerProvider::registerClass, IterationPlan.class)
+                        .build(),
                 "datasource", new HikariCPComponent(OptionMap.of(
-                        "uri", Env.getString("JDBC_URL", "jdbc:h2:mem:test"),
+                        "uri", Env.getString("JDBC_URL", "jdbc:h2:mem:test;AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1"),
                         "username", Env.getString("JDBC_USER", ""),
                         "password", Env.getString("JDBC_PASS", "")
                 )),
@@ -43,23 +45,9 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
         ).relationships(
                 component("http").using("app"),
                 component("app").using(
-                        "datasource", "template", "doma", "jackson", "jwt"),
-                component("doma").using("datasource", "flyway"),
+                        "datasource", "jpa", "jackson", "jwt"),
+                component("jpa").using("datasource", "flyway"),
                 component("flyway").using("datasource")
         );
-    }
-
-    private Dialect detectDialect() {
-        String jdbcUrl=Env.get("JDBC_URL");
-        if (jdbcUrl != null) {
-            if (jdbcUrl.startsWith("jdbc:h2:")) {
-                return new H2Dialect();
-            } else if (jdbcUrl.startsWith("jdbc:postgresql:")) {
-                return new PostgresDialect();
-            } else if (jdbcUrl.startsWith("jdbc:mysql:")) {
-                return new MysqlDialect();
-            }
-        }
-        return new H2Dialect();
     }
 }
