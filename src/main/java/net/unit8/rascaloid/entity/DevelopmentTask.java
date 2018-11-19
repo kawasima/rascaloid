@@ -7,13 +7,13 @@ import javax.persistence.*;
 public class DevelopmentTask extends Task {
     @OneToOne
     @JoinColumn(name = "story_id")
-    private Long story;
+    private Story story;
 
-    public Long getStory() {
+    public Story getStory() {
         return story;
     }
 
-    public void setStory(Long storyId) {
+    public void setStory(Story story) {
         this.story = story;
     }
 }

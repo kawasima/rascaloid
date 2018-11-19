@@ -67,10 +67,10 @@ public class IterationStoriesResourceTest {
         em.persist(iteration);
         em.persist(story);
         em.persist(iterationPlan);
-        em.getTransaction().commit();
 
         IterationStoriesResource resource = new IterationStoriesResource();
         List<Story> stories = resource.kanban(iteration, em);
         System.out.println(stories);
+        em.getTransaction().rollback();
     }
 }

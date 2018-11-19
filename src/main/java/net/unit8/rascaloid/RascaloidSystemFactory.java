@@ -10,6 +10,7 @@ import enkan.component.jackson.JacksonBeansConverter;
 import enkan.component.jetty.JettyComponent;
 import enkan.config.EnkanSystemFactory;
 import enkan.system.EnkanSystem;
+import kotowari.restful.component.BeansValidator;
 import net.unit8.bouncr.sign.JsonWebToken;
 import net.unit8.rascaloid.entity.*;
 
@@ -32,6 +33,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
                         .set(EclipseLinkEntityManagerProvider::registerClass, Iteration.class)
                         .set(EclipseLinkEntityManagerProvider::registerClass, IterationPlan.class)
                         .build(),
+                "validator", new BeansValidator(),
                 "datasource", new HikariCPComponent(OptionMap.of(
                         "uri", Env.getString("JDBC_URL", "jdbc:h2:mem:test;AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1"),
                         "username", Env.getString("JDBC_USER", ""),
@@ -45,7 +47,7 @@ public class RascaloidSystemFactory implements EnkanSystemFactory {
         ).relationships(
                 component("http").using("app"),
                 component("app").using(
-                        "datasource", "jpa", "jackson", "jwt"),
+                        "datasource", "validator", "jpa", "jackson", "jwt"),
                 component("jpa").using("datasource", "flyway"),
                 component("flyway").using("datasource")
         );
