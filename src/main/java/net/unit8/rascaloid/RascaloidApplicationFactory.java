@@ -36,9 +36,9 @@ public class RascaloidApplicationFactory implements ApplicationFactory {
             r.all("/project/:projectId").to(ProjectResource.class);
 
             r.all("/project/:projectId/iterations").to(IterationsResource.class);
-            r.all("/project/:projectId/iteration/:iteration").to(IterationResource.class);
+            r.all("/project/:projectId/iteration/:iterationId").to(IterationResource.class);
 
-            r.all("/project/:projectId/iteration/:iteration/stories").to(IterationStoriesResource.class);
+            r.all("/project/:projectId/iteration/:iterationId/stories").to(IterationStoriesResource.class);
 
             //r.all("/project/:projectId/stories").to()
         }).compile();

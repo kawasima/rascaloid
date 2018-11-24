@@ -7,6 +7,7 @@ import kotowari.restful.Decision;
 import kotowari.restful.component.BeansValidator;
 import kotowari.restful.data.Problem;
 import kotowari.restful.data.RestContext;
+import kotowari.restful.resource.AllowedMethods;
 import net.unit8.rascaloid.boundary.ProjectQuery;
 import net.unit8.rascaloid.entity.Project;
 
@@ -21,6 +22,7 @@ import java.util.Set;
 
 import static kotowari.restful.DecisionPoint.*;
 
+@AllowedMethods({"GET", "POST"})
 public class ProjectsResource {
     @Inject
     private BeansConverter beansConverter;

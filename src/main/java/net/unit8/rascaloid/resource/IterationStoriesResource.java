@@ -26,7 +26,7 @@ import static kotowari.restful.DecisionPoint.POST;
 public class IterationStoriesResource {
     @Decision(value = MALFORMED, method = {"POST"})
     public Problem isMalformed(Parameters params, EntityManager em, RestContext context) {
-        Iteration iteration = em.find(Iteration.class, params.getLong("id"));
+        Iteration iteration = em.find(Iteration.class, params.getLong("iterationId"));
         context.putValue(iteration);
         return null;
     }
